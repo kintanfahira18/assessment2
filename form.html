@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Kintan Fahira_Assessment 2</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 2px solid #4c77af;
+        }
+
+        th {
+            background-color: #4c77af;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="body">
+        <h2>Form Validation Data Universitas</h2><br>
+        <form id="universityForm" onsubmit="validateForm(event)">
+            <label for="universityName">Nama Universitas:</label>
+            <input type="text" id="universityName" name="universityName" required>
+            <span id="universityNameError" class="error"></span>
+
+            <br><br>
+
+            <label for="universitydomain">Domain Universitas:</label>
+            <input type="text" id="universitydomain" name="universitydomain" required>
+            <span id="universitydomainError" class="error"></span>
+
+            <br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+
+        <h1 style="text-align:center">United Kingdom Universities List</h1>
+        <table id="universities">
+            <thead>
+                <tr>
+                    <th>Universities Name</th>
+                    <th>Domains</th>
+                    <th>Web Pages</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: "http://universities.hipolabs.com/search?country=United+Kingdom",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        $.each(data, function (i, universities) {
+                            var row = $("<tr>");
+                            $("<td>").text(universities.name).appendTo(row);
+                            $("<td>").text(universities.domains).appendTo(row);
+                            $("<td>").text(universities.web_pages).appendTo(row);
+                            $("#universities tbody").append(row);
+                        });
+                    }
+                });
+            });
+
+            function validateForm(event) {
+                event.preventDefault(); 
+
+                
+                const universityName = document.getElementById("universityName").value.trim();
+                const universitydomain = document.getElementById("universitydomain").value.trim();
+
+                
+                if (universityName === "") {
+                    document.getElementById("universityNameError").textContent = "Nama universitas harus diisi";
+                } else {
+                    document.getElementById("universityNameError").textContent = "";
+                }
+
+                
+                if (universitydomain === "") {
+                    document.getElementById("universitydomainError").textContent = "Lokasi universitas harus diisi";
+                } else {
+                    document.getElementById("universitydomainError").textContent = "";
+                }
+
+                
+                if (universityName !== "" && universitydomain !== "") {
+                    document.getElementById("universityForm").submit();
+                }
+            }
+
+        </script>
+</body>
+
+</html>
