@@ -57,6 +57,8 @@
         </table>
         <script>
             $(document).ready(function () {
+                $("#form").validate()
+                $("#tabel").DataTable()
                 $.ajax({
                     url: "http://universities.hipolabs.com/search?country=United+Kingdom",
                     type: "GET",
